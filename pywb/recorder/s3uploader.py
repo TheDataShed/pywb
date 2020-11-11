@@ -21,11 +21,11 @@ def s3_upload_file(filename: str, bucket: str=None):
 
     :param filename: Full path to file to upload
     :param bucket: Bucket to upload to. If not passed, expect to
-        find this in the S3BUCKET environment variable
+        find this in the AWS_S3_BUCKET environment variable
     :return: True if file was uploaded, else False
     """
     # Clean up bucket and filenames
-    bucket = bucket or os.environ.get('S3BUCKET')
+    bucket = bucket or os.environ.get('AWS_S3_BUCKET')
     if not bucket:
         raise BucketValidationError('No S3 bucket provided')
 

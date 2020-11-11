@@ -36,7 +36,7 @@ def test_s3_upload_file_with_env_var():
     prefix = 'tmp'
     filepath = get_test_file(prefix)
 
-    os.environ['S3BUCKET'] = TEST_BUCKET
+    os.environ['AWS_S3_BUCKET'] = TEST_BUCKET
     assert s3_upload_file(filepath)
 
     s3 = boto3.resource('s3')
@@ -45,7 +45,7 @@ def test_s3_upload_file_with_env_var():
     assert filename in list(map(lambda x: x.key, bucket.objects.filter(Prefix=prefix)))
 
     s3.Object(TEST_BUCKET, filename).delete()
-    os.environ.pop('S3BUCKET')
+    os.environ.pop('AWS_S3_BUCKET')
 
 
 def test_s3_upload_file_with_no_bucket():

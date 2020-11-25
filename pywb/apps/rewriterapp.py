@@ -794,6 +794,15 @@ class RewriterApp(object):
     def get_host_prefix(self, environ):
         scheme = environ['wsgi.url_scheme'] + '://'
 
+        # forwarded
+        forwarded = environ.get('HTTP_FORWARDED')
+        if forwarded:
+            forwarded = dict(kv.split('=') for kv in forwarded.split(';'))
+            host = forwarded.get('host')
+            proto = forwarded.get('proto')
+            if proto and host:
+                return proto + '://' + host
+
         # proxy
         host = environ.get('wsgiprox.proxy_host')
         if host:
